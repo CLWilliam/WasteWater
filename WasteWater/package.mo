@@ -1,10 +1,8 @@
-within ;
 package WasteWater "Modelica WasteWater Library"
-extends Modelica.Icons.Package;
-
-
-annotation (uses(Modelica(version="3.2.1")),
-  Documentation(info="<html>
+  extends Modelica.Icons.Package;
+  annotation(
+    uses(Modelica(version = "4.0.0")),
+    Documentation(info = "<html>
 <p>This package can be used to model and simulate biological municipal
 wastewater treatment plants.</p>
 
@@ -39,12 +37,12 @@ Germany<br />
 email: <a href=\"mailto:gerald.reichl@tu-ilmenau.de\">gerald.reichl@tu-ilmenau.de</a><br />
 </blockquote>
 <p>Copyright &copy; 2000 - 2003, Gerald Reichl</p>
-</html>",revisions="<html>
+</html>", revisions = "<html>
 <h5>version 2.1.0 (2015-01-22)</h5>
 <p>Conversion from Modelica 1.6 to Modelica 3.2.1 performed by <a href=\"mailto:martin.sjolund@liu.se\">Martin Sjölund</a> using Dymola demo version.</p>
 <h5>version 2.0.1 (2003)</h5>
 <p>First official version of the library released at 3rd Modelica Conference.</p>
 </html>"),
-  version="2.1.0",
-  conversion(from(version="2.0.1", script="Resources/Scripts/ConvertFromWasteWater_2.0.1.mos")));
+    version = "2.1.0",
+    conversion(from(version = "2.0.1", script = "Resources/Scripts/ConvertFromWasteWater_2.0.1.mos")));
 end WasteWater;

@@ -1,30 +1,25 @@
 within WasteWater.ASM3;
-package PreClar "Primary clarifier modelling based on ASM3"
 
+package PreClar "Primary clarifier modelling based on ASM3"
   extends Modelica.Icons.Package;
 
   model preclar1 "Dynamic ASM3 Primary Clarifier Model"
     // dynamic primary clarifier tank, based on Otterpohl
     // to be used for feed forward calculation, e.g. influent data needed
-
     import Modelica.Math.log;
-
     package WWU = WasteWaterUnits;
     extends WasteWater.Icons.preclar1;
     extends ASM3.Interfaces.stoichiometry;
-
     // tank specific parameters
-    parameter Modelica.SIunits.Volume V=500 "Volume of primary clarifier tank";
+    parameter Modelica.Units.SI.Volume V = 500 "Volume of primary clarifier tank";
     Real hrt_h "hydraulic residence time in primary sedimentation tank [h]";
-
-      //Real hrt_min "hydraulic residence time in primary sedimentation tank [min]";
+    //Real hrt_min "hydraulic residence time in primary sedimentation tank [min]";
     Real n_COD "efficiency of COD removal [%]";
     Real n_X "efficiency transformed to particulate fractions [%]";
     Real CODin;
     Real CODout;
     Real XCODin;
     Real H;
-
     WWU.MassConcentration So "Dissolved oxygen";
     WWU.MassConcentration Si "Soluble inert organics";
     WWU.MassConcentration Ss "Readily biodegradable substrates";
@@ -38,41 +33,32 @@ package PreClar "Primary clarifier modelling based on ASM3"
     WWU.MassConcentration Xsto "Organics stored by heterotrphs";
     WWU.MassConcentration Xa "Autotrophic nitrifying biomass";
     //WWU.MassConcentration Xss "Total suspend solids";
-    ASM3.Interfaces.WWFlowAsm3in In annotation (Placement(transformation(extent
-            ={{-110,-10},{-90,10}})));
-    ASM3.Interfaces.WWFlowAsm3out Out annotation (Placement(transformation(
-            extent={{90,-10},{110,10}})));
-    ASM3.Interfaces.WWFlowAsm3out MeasurePort annotation (Placement(
-          transformation(extent={{32,90},{42,100}})));
+    ASM3.Interfaces.WWFlowAsm3in In annotation(
+      Placement(transformation(extent = {{-110, -10}, {-90, 10}})));
+    ASM3.Interfaces.WWFlowAsm3out Out annotation(
+      Placement(transformation(extent = {{90, -10}, {110, 10}})));
+    ASM3.Interfaces.WWFlowAsm3out MeasurePort annotation(
+      Placement(transformation(extent = {{32, 90}, {42, 100}})));
   equation
-
-    // calculation of the hydraulic residence time
+// calculation of the hydraulic residence time
     hrt_h = V/In.Q*24;
-    //hrt_min = V/In.Q * 24 * 60;
-
-      // n_COD according Otterpohl and Freund 1992 "Dynamic Models for Clarifiers"
+//hrt_min = V/In.Q * 24 * 60;
+// n_COD according Otterpohl and Freund 1992 "Dynamic Models for Clarifiers"
     n_COD = 2.7*(log(hrt_h*hrt_h) + 9)/100;
-
-    // n_COD according Otterpohl 1995, Dissertation
-    // n_COD = (1.45 + 6.15 * log(hrt_min))/100;
-
+// n_COD according Otterpohl 1995, Dissertation
+// n_COD = (1.45 + 6.15 * log(hrt_min))/100;
     XCODin = In.Xi + In.Xs + In.Xh + In.Xsto + In.Xa;
-    // particulate COD in the influent
-
+// particulate COD in the influent
     CODin = In.Si + In.Ss + XCODin;
-    // total COD in the influent
-
+// total COD in the influent
     CODout = Out.Si + Out.Ss + Out.Xi + Out.Xs + Out.Xh + Out.Xsto + Out.Xa;
-
-    // n_X can not be greater than 1
+// n_X can not be greater than 1
     H = n_COD*CODin/XCODin;
-
-    // therefore this check
+// therefore this check
     n_X = if H > 0.95 then 0.95 else if H < 0.05 then 0.05 else H;
-    // in this case the model needs to be modified by a new n_COD
-    // n_COD_? = (2.88*XCODin/CODin - 0.118) * n_COD;
-
-    // volume dependent dilution term of each concentration
+// in this case the model needs to be modified by a new n_COD
+// n_COD_? = (2.88*XCODin/CODin - 0.118) * n_COD;
+// volume dependent dilution term of each concentration
     der(So) = (In.So - So)*In.Q/V;
     der(Si) = (In.Si - Si)*In.Q/V;
     der(Ss) = (In.Ss - Ss)*In.Q/V;
@@ -85,11 +71,10 @@ package PreClar "Primary clarifier modelling based on ASM3"
     der(Xh) = (In.Xh - Xh)*In.Q/V;
     der(Xsto) = (In.Xsto - Xsto)*In.Q/V;
     der(Xa) = (In.Xa - Xa)*In.Q/V;
-    //der(Xss) = (In.Xss - Xss)*In.Q/V;
-
-    // Outputs
-    // this is just a reduction of particulate substances; n_X*X is not stored
-    // so the amount of primary sludge removed can not be calculated
+//der(Xss) = (In.Xss - Xss)*In.Q/V;
+// Outputs
+// this is just a reduction of particulate substances; n_X*X is not stored
+// so the amount of primary sludge removed can not be calculated
     Out.Q + In.Q = 0;
     Out.So = So;
     Out.Si = Si;
@@ -103,9 +88,7 @@ package PreClar "Primary clarifier modelling based on ASM3"
     Out.Xh = (1 - n_X)*Xh;
     Out.Xsto = (1 - n_X)*Xsto;
     Out.Xa = (1 - n_X)*Xa;
-    Out.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto
-       + i_SS_BM*Out.Xa;
-
+    Out.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto + i_SS_BM*Out.Xa;
     MeasurePort.So = So;
     MeasurePort.Si = Si;
     MeasurePort.Ss = Ss;
@@ -118,40 +101,33 @@ package PreClar "Primary clarifier modelling based on ASM3"
     MeasurePort.Xh = (1 - n_X)*Xh;
     MeasurePort.Xsto = (1 - n_X)*Xsto;
     MeasurePort.Xa = (1 - n_X)*Xa;
-    MeasurePort.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*
-      Out.Xsto + i_SS_BM*Out.Xa;
-
-    annotation (
-      Documentation(info="This is an ASM3 dynamic primary clarifier model based on the theory
+    MeasurePort.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto + i_SS_BM*Out.Xa;
+    annotation(
+      Documentation(info = "This is an ASM3 dynamic primary clarifier model based on the theory
 by Otterpohl and Freund.
 
 Parameter:
   V - volume of the preclarifier
-"));
+      "));
   end preclar1;
 
   model preclar2 "Static ASM3 Primary Clarifier Model"
     // static primary clarifier tank, based on Otterpohl
     // to be used for feed forward calculation, e.g. influent data needed
-
     import Modelica.Math.log;
-
     package WWU = WasteWaterUnits;
     extends WasteWater.Icons.preclar2;
     extends ASM3.Interfaces.stoichiometry;
-
     // tank specific parameters
-    parameter Modelica.SIunits.Volume V=500 "Volume of primary clarifier tank";
+    parameter Modelica.Units.SI.Volume V = 500 "Volume of primary clarifier tank";
     Real hrt_h "hydraulic residence time in primary sedimentation tank [h]";
-
-      //Real hrt_min "hydraulic residence time in primary sedimentation tank [min]";
+    //Real hrt_min "hydraulic residence time in primary sedimentation tank [min]";
     Real n_COD "efficiency of COD removal [%]";
     Real n_X "efficiency transformed to particulate fractions [%]";
     Real CODin;
     Real CODout;
     Real XCODin;
     Real H;
-
     WWU.MassConcentration So "Dissolved oxygen";
     WWU.MassConcentration Si "Soluble inert organics";
     WWU.MassConcentration Ss "Readily biodegradable substrates";
@@ -165,40 +141,32 @@ Parameter:
     WWU.MassConcentration Xsto "Organics stored by heterotrphs";
     WWU.MassConcentration Xa "Autotrophic nitrifying biomass";
     //WWU.MassConcentration Xss "Total suspend solids";
-    ASM3.Interfaces.WWFlowAsm3in In annotation (Placement(transformation(extent
-            ={{-110,-10},{-90,10}})));
-    ASM3.Interfaces.WWFlowAsm3out Out annotation (Placement(transformation(
-            extent={{90,-10},{110,10}})));
-    ASM3.Interfaces.WWFlowAsm3out MeasurePort annotation (Placement(
-          transformation(extent={{32,90},{42,100}})));
+    ASM3.Interfaces.WWFlowAsm3in In annotation(
+      Placement(transformation(extent = {{-110, -10}, {-90, 10}})));
+    ASM3.Interfaces.WWFlowAsm3out Out annotation(
+      Placement(transformation(extent = {{90, -10}, {110, 10}})));
+    ASM3.Interfaces.WWFlowAsm3out MeasurePort annotation(
+      Placement(transformation(extent = {{32, 90}, {42, 100}})));
   equation
-
-    // calculation of the hydraulic residence time
+// calculation of the hydraulic residence time
     hrt_h = V/In.Q*24;
-    //hrt_min = V/In.Q * 24 * 60;
-
-      // n_COD according Otterpohl and Freund 1992 "Dynamic Models for Clarifiers"
+//hrt_min = V/In.Q * 24 * 60;
+// n_COD according Otterpohl and Freund 1992 "Dynamic Models for Clarifiers"
     n_COD = 2.7*(log(hrt_h*hrt_h) + 9)/100;
-
-    // n_COD according Otterpohl 1995, Dissertation
-    // n_COD = (1.45 + 6.15 * log(hrt_min))/100;
-
+// n_COD according Otterpohl 1995, Dissertation
+// n_COD = (1.45 + 6.15 * log(hrt_min))/100;
     XCODin = In.Xi + In.Xs + In.Xh + In.Xsto + In.Xa;
-    // particulate COD in the influent
-
+// particulate COD in the influent
     CODin = In.Si + In.Ss + XCODin;
-    // total COD in the influent
-
+// total COD in the influent
     CODout = Out.Si + Out.Ss + Out.Xi + Out.Xs + Out.Xh + Out.Xsto + Out.Xa;
-
-    // n_X can not be greater than 1
+// n_X can not be greater than 1
     H = n_COD*CODin/XCODin;
-    // therefore this check
+// therefore this check
     n_X = if H > 0.95 then 0.95 else if H < 0.05 then 0.05 else H;
-    // in this case the model needs to be modified by a new n_COD
-    // n_COD_? = (2.88*XCODin/CODin - 0.118) * n_COD;
-
-    // volume dependent dilution term of each concentration
+// in this case the model needs to be modified by a new n_COD
+// n_COD_? = (2.88*XCODin/CODin - 0.118) * n_COD;
+// volume dependent dilution term of each concentration
     0 = (In.So - So)*In.Q/V;
     0 = (In.Si - Si)*In.Q/V;
     0 = (In.Ss - Ss)*In.Q/V;
@@ -211,11 +179,10 @@ Parameter:
     0 = (In.Xh - Xh)*In.Q/V;
     0 = (In.Xsto - Xsto)*In.Q/V;
     0 = (In.Xa - Xa)*In.Q/V;
-    //0 = (In.Xss - Xss)*In.Q/V;
-
-    // Outputs
-    // this is just a reduction of particulate substances; n_X*X is not stored
-    // so the amount of primary sludge removed can not be calculated
+//0 = (In.Xss - Xss)*In.Q/V;
+// Outputs
+// this is just a reduction of particulate substances; n_X*X is not stored
+// so the amount of primary sludge removed can not be calculated
     Out.Q + In.Q = 0;
     Out.So = So;
     Out.Si = Si;
@@ -229,9 +196,7 @@ Parameter:
     Out.Xh = (1 - n_X)*Xh;
     Out.Xsto = (1 - n_X)*Xsto;
     Out.Xa = (1 - n_X)*Xa;
-    Out.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto
-       + i_SS_BM*Out.Xa;
-
+    Out.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto + i_SS_BM*Out.Xa;
     MeasurePort.So = So;
     MeasurePort.Si = Si;
     MeasurePort.Ss = Ss;
@@ -244,46 +209,38 @@ Parameter:
     MeasurePort.Xh = (1 - n_X)*Xh;
     MeasurePort.Xsto = (1 - n_X)*Xsto;
     MeasurePort.Xa = (1 - n_X)*Xa;
-    MeasurePort.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*
-      Out.Xsto + i_SS_BM*Out.Xa;
-
-    annotation (
-      Documentation(info="This is an ASM3 static primary clarifier model based on the theory
+    MeasurePort.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto + i_SS_BM*Out.Xa;
+    annotation(
+      Documentation(info = "This is an ASM3 static primary clarifier model based on the theory
 by Otterpohl and Freund.
 
 Parameter:
   V - volume of the preclarifier
 
-"));
+      "));
   end preclar2;
 
   model preclar3 "Inverse ASM3 Static Primary Clarifier Model"
     // static primary clarifier tank
     // to be used for backward calculation, e.g. effluent data for total
-
-      // signals need to be in the secuence COD, Snox, Snh, pH in the inputtable
-
+    // signals need to be in the secuence COD, Snox, Snh, pH in the inputtable
     import Modelica.Math.log;
-
     package WWU = WasteWater.WasteWaterUnits;
     extends WasteWater.Icons.preclar2;
     extends ASM3.Interfaces.stoichiometry;
-
     // tank specific parameters
-    parameter Modelica.SIunits.Volume V=500 "Volume of primary clarifier tank";
-    parameter Real aSo=0.0 "Dissolved oxygen in the inflow [mg/l]";
-    parameter Real aSi=5/100 "Fraction of Si of the total COD in the influent";
-    parameter Real aSs=15/100 "Fraction of Ss of the total COD in the influent";
-    parameter Real aXi=15/100 "Fraction of Xi of the total COD in the influent";
-    parameter Real aXs=45/100 "Fraction of Xs of the total COD in the influent";
-    parameter Real aXh=20/100 "Fraction of Xh of the total COD in the influent";
-    parameter Real aXsto=0/100
-      "Fraction of Xsto of the total COD in the influent";
-    parameter Real aXa=0/100 "Fraction of Xa of the total COD in the influent";
-    parameter Real n_corr=1.0 "Correction faktor for the efficiency function";
+    parameter Modelica.Units.SI.Volume V = 500 "Volume of primary clarifier tank";
+    parameter Real aSo = 0.0 "Dissolved oxygen in the inflow [mg/l]";
+    parameter Real aSi = 5/100 "Fraction of Si of the total COD in the influent";
+    parameter Real aSs = 15/100 "Fraction of Ss of the total COD in the influent";
+    parameter Real aXi = 15/100 "Fraction of Xi of the total COD in the influent";
+    parameter Real aXs = 45/100 "Fraction of Xs of the total COD in the influent";
+    parameter Real aXh = 20/100 "Fraction of Xh of the total COD in the influent";
+    parameter Real aXsto = 0/100 "Fraction of Xsto of the total COD in the influent";
+    parameter Real aXa = 0/100 "Fraction of Xa of the total COD in the influent";
+    parameter Real n_corr = 1.0 "Correction faktor for the efficiency function";
     Real hrt_h "hydraulic residence time in primary sedimentation tank [h]";
-
-      //Real hrt_min "hydraulic residence time in primary sedimentation tank [min]";
+    //Real hrt_min "hydraulic residence time in primary sedimentation tank [min]";
     Real n_COD "efficiency of COD removal [%]";
     Real n_X "efficiency transformed to particulate fractions [%]";
     Real COD;
@@ -291,9 +248,7 @@ Parameter:
     Real CODout;
     Real XCOD;
     Real H;
-
-      // Interfaces.MeasurePort MeasurePort annotation (extent=[32, 90; 42, 100]);
-
+    // Interfaces.MeasurePort MeasurePort annotation (extent=[32, 90; 42, 100]);
     WWU.MassConcentration So "Dissolved oxygen";
     WWU.MassConcentration Si "Soluble inert organics";
     WWU.MassConcentration Ss "Readily biodegradable substrates";
@@ -307,48 +262,36 @@ Parameter:
     WWU.MassConcentration Xsto "Organics stored by heterotrphs";
     WWU.MassConcentration Xa "Autotrophic nitrifying biomass";
     //WWU.MassConcentration Xss "Total suspend solids";
-
-    ASM3.Interfaces.WWFlowAsm3in In annotation (Placement(transformation(extent
-            ={{-110,-10},{-90,10}})));
-    ASM3.Interfaces.WWFlowAsm3out Out annotation (Placement(transformation(
-            extent={{90,-10},{110,10}})));
-    Modelica.Blocks.Interfaces.RealInput MeasurePort[4]
-      annotation (Placement(transformation(
-          origin={38,90},
-          extent={{-10,-10},{10,10}},
-          rotation=270)));
+    ASM3.Interfaces.WWFlowAsm3in In annotation(
+      Placement(transformation(extent = {{-110, -10}, {-90, 10}})));
+    ASM3.Interfaces.WWFlowAsm3out Out annotation(
+      Placement(transformation(extent = {{90, -10}, {110, 10}})));
+    Modelica.Blocks.Interfaces.RealInput MeasurePort[4] annotation(
+      Placement(transformation(origin = {38, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 270)));
   equation
-
-    // calculation of the hydraulic residence time
+// calculation of the hydraulic residence time
     hrt_h = V/In.Q*24;
-    //hrt_min = V/In.Q * 24 * 60;
-
-      // n_COD according Otterpohl and Freund 1992 "Dynamic Models for Clarifiers"
+//hrt_min = V/In.Q * 24 * 60;
+// n_COD according Otterpohl and Freund 1992 "Dynamic Models for Clarifiers"
     n_COD = n_corr*2.7*(log(hrt_h*hrt_h) + 9)/100;
-    // n_COD according Otterpohl 1995, Dissertation
-    // n_COD = n_corr*(1.45 + 6.15 * log(hrt_min))/100;
-
+// n_COD according Otterpohl 1995, Dissertation
+// n_COD = n_corr*(1.45 + 6.15 * log(hrt_min))/100;
     XCOD = In.Xi + In.Xs + In.Xh + In.Xsto + In.Xa;
-    // particulate COD in the influent
+// particulate COD in the influent
     COD = In.Si + In.Ss + XCOD;
-    // total COD in the influent
-
-    CODin =MeasurePort[1]/(1 - n_COD);
-    // total COD in the influent
-    // above two CODs sould be the same
-
+// total COD in the influent
+    CODin = MeasurePort[1]/(1 - n_COD);
+// total COD in the influent
+// above two CODs sould be the same
     CODout = Out.Si + Out.Ss + Out.Xi + Out.Xs + Out.Xh + Out.Xsto + Out.Xa;
-    // this should be the same as MeasurePort.signal[1]
-
-    // n_X can not be greater than 1
+// this should be the same as MeasurePort.signal[1]
+// n_X can not be greater than 1
     H = n_COD*COD/XCOD;
-    // therefor this check
+// therefor this check
     n_X = if H > 0.95 then 0.95 else if H < 0.05 then 0.05 else H;
-    // in this case the model needs to be modified by a new n_COD
-    // n_COD_? = (2.88*XCODin/CODin - 0.118) * n_COD;
-
-    // volume dependent dilution term of each concentration
-
+// in this case the model needs to be modified by a new n_COD
+// n_COD_? = (2.88*XCODin/CODin - 0.118) * n_COD;
+// volume dependent dilution term of each concentration
     0 = (In.So - So)*In.Q/V;
     0 = (In.Si - Si)*In.Q/V;
     0 = (In.Ss - Ss)*In.Q/V;
@@ -361,28 +304,23 @@ Parameter:
     0 = (In.Xh - Xh)*In.Q/V;
     0 = (In.Xsto - Xsto)*In.Q/V;
     0 = (In.Xa - Xa)*In.Q/V;
-    //0 = (In.Xss - Xss)*In.Q/V;
-
+//0 = (In.Xss - Xss)*In.Q/V;
     Out.Q + In.Q = 0;
-
-    // Inputs
-
+// Inputs
     In.So = aSo;
     In.Si = aSi*CODin;
     In.Ss = aSs*CODin;
-    In.Snh =MeasurePort[3];
+    In.Snh = MeasurePort[3];
     In.Sn2 = 0.0;
-    In.Snox =MeasurePort[2];
-    In.Salk =1.8*exp(MeasurePort[4] - 6.4);
+    In.Snox = MeasurePort[2];
+    In.Salk = 1.8*exp(MeasurePort[4] - 6.4);
     In.Xi = aXi*CODin;
     In.Xs = aXs*CODin;
     In.Xh = aXh*CODin;
     In.Xsto = aXsto*CODin;
     In.Xa = aXa*CODin;
-    In.Xss = i_SS_Xi*In.Xi + i_SS_Xs*In.Xs + i_SS_BM*In.Xh + 0.60*In.Xsto +
-      i_SS_BM*In.Xa;
-
-    // Outputs
+    In.Xss = i_SS_Xi*In.Xi + i_SS_Xs*In.Xs + i_SS_BM*In.Xh + 0.60*In.Xsto + i_SS_BM*In.Xa;
+// Outputs
     Out.So = So;
     Out.Si = Si;
     Out.Ss = Ss;
@@ -395,11 +333,9 @@ Parameter:
     Out.Xh = (1 - n_X)*Xh;
     Out.Xsto = (1 - n_X)*Xsto;
     Out.Xa = (1 - n_X)*Xa;
-    Out.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto
-       + i_SS_BM*Out.Xa;
-
-    annotation (
-      Documentation(info="This is a special case of the ASM3 static primary clarifier model.
+    Out.Xss = i_SS_Xi*Out.Xi + i_SS_Xs*Out.Xs + i_SS_BM*Out.Xh + 0.60*Out.Xsto + i_SS_BM*Out.Xa;
+    annotation(
+      Documentation(info = "This is a special case of the ASM3 static primary clarifier model.
 Here measurement data at the end (effluent) of the preclarifier needs to be provided.
 This is typical for some real plants. Influent is then calculated.
 
@@ -416,10 +352,10 @@ Dimension of InPort is 4.
   3 - ammonium nitrogen (Snh) at effluent of primary clarifier
   4 - pH-value at effluent of primary clarifier
 
-"));
+      "));
   end preclar3;
-  annotation (
-    Documentation(info="This package provides one dynamic and two static ASM3 primary clarifier
+  annotation(
+    Documentation(info = "This package provides one dynamic and two static ASM3 primary clarifier
 models based on Otterpohl [1].
 
 Main Author:
@@ -442,5 +378,5 @@ This package is free software; it can be redistributed and/or modified under the
 disclaimer in the documentation of package Modelica in file \"Modelica/package.mo\".
 
 Copyright (C) 2002 - 2003, Gerald Reichl
-"));
+    "));
 end PreClar;

@@ -1,30 +1,16 @@
 within WasteWater;
-package WasteWaterUnits
-  "Type definitions for use with the activated sludge models"
 
+package WasteWaterUnits "Type definitions for use with the activated sludge models"
   extends Modelica.Icons.Package;
-  type VolumeFlowRate = Real (final quantity="VolumeFlowRate", final unit=
-          "m3/d");
-  type MassConcentration = Real (
-      final quantity="MassConcentration",
-      final unit="mg/l",
-      final min=0.0);
-  type Alkalinity = Real (
-      final quantity="Alkalinity",
-      final unit="mmol/l",
-      final min=0.0);
-  type SedimentationVelocity = Real (final quantity="SedimentationVelocity",
-        final unit="m/d");
-
-  type SedimentationFlux = Real (final quantity="SedimentationFlux", final unit=
-         "g/(m2*d)");
-
-  type SludgeVolumeIndex = Real (final quantity="SludgeVolumeIndex", final unit=
-         "ml/g");
-
-  annotation (
-    Invisible=true,
-    Documentation(info="This package provides special convention for units and types
+  type VolumeFlowRate = Real(final quantity = "VolumeFlowRate", final unit = "m3/d");
+  type MassConcentration = Real(final quantity = "MassConcentration", final unit = "mg/l", final min = 0.0);
+  type Alkalinity = Real(final quantity = "Alkalinity", final unit = "mmol/l", final min = 0.0);
+  type SedimentationVelocity = Real(final quantity = "SedimentationVelocity", final unit = "m/d");
+  type SedimentationFlux = Real(final quantity = "SedimentationFlux", final unit = "g/(m2*d)");
+  type SludgeVolumeIndex = Real(final quantity = "SludgeVolumeIndex", final unit = "ml/g");
+  annotation(
+    Invisible = true,
+    Documentation(info = "This package provides special convention for units and types
 for use with the activated sludge models.
 
 These are:
@@ -51,5 +37,5 @@ The package is free software; it can be redistributed and/or modified under the 
 disclaimer in the documentation of package Modelica in file \"Modelica/package.mo\".
 
 Copyright (C) 2000 - 2001, Gerald Reichl
-"));
+    "));
 end WasteWaterUnits;

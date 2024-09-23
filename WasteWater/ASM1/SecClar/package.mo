@@ -1,10 +1,9 @@
 within WasteWater.ASM1;
+
 package SecClar "Library for secondary settling tank modelling based on ASM1"
-extends Modelica.Icons.Package;
-
-
-annotation (
-  Documentation(info="This library provides a collection of ASM1 secondary clarifier models based on
+  extends Modelica.Icons.Package;
+  annotation(
+    Documentation(info = "This library provides a collection of ASM1 secondary clarifier models based on
 several theories.
 
 The library currently is structured in following sub-libraries.
@@ -45,5 +44,5 @@ This package is free software; it can be redistributed and/or modified under the
 disclaimer in the documentation of package Modelica in file \"Modelica/package.mo\".
 
 Copyright (C) 2000 - 2003, Gerald Reichl
-"));
+    "));
 end SecClar;
