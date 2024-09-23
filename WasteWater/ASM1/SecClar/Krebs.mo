@@ -1,10 +1,10 @@
 within WasteWater.ASM1.SecClar;
 package Krebs "Secondary settling tank modelling by Krebs (ASM1)"
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   package Interfaces "Partial models for Secondary Clarifier Model by Krebs"
 
-    extends Modelica.Icons.Library;
+    extends Modelica.Icons.Package;
 
     partial model SCVar "partial models providing variables"
       package WWU = WasteWater.WasteWaterUnits;

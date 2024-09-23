@@ -1,7 +1,7 @@
 within WasteWater.ASM3;
 package Examples "Demonstration examples of the components of the ASM3 library"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   class SmallPlant "Small WWTP Configuration"
 

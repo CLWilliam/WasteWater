@@ -1,7 +1,7 @@
 within WasteWater.ASM2d;
 package PreClar "Primary clarifier modelling based on ASM2d"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   model preclar1 "Dynamic ASM2d Primary Clarifier Model"
     // dynamic primary clarifier tank, based on Otterpohl

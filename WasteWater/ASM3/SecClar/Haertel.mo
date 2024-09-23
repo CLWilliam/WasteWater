@@ -1,12 +1,12 @@
 within WasteWater.ASM3.SecClar;
 package Haertel "Secondary clarifier modelling by Haertel (ASM3)"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   package Interfaces
     "Connectors and partial models for ASM3 Secondary Clarifier Model by Haertel"
 
-    extends Modelica.Icons.Library;
+    extends Modelica.Icons.Package;
 
     connector UpperLayerPin "Connector above influent layer"
 

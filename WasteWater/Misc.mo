@@ -1,7 +1,7 @@
 within WasteWater;
 package Misc "miscellaneous"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   model TwoPoint "On-Off controller with hysteresis"
     //Two-point controller

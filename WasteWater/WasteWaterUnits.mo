@@ -2,7 +2,7 @@ within WasteWater;
 package WasteWaterUnits
   "Type definitions for use with the activated sludge models"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
   type VolumeFlowRate = Real (final quantity="VolumeFlowRate", final unit=
           "m3/d");
   type MassConcentration = Real (

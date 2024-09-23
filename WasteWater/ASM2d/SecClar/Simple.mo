@@ -1,7 +1,7 @@
 within WasteWater.ASM2d.SecClar;
 package Simple "Simple ASM2d Secondary clarifier model"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   model SimpleSecClarMod "Simple ASM2d Secondary Clarifier Model"
 

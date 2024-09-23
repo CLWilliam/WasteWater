@@ -2,7 +2,7 @@ within WasteWater.ASM2d;
 package Interfaces
   "Connectors and partial ASM2d model for Waste Water Treatment Modelling"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   connector WWFlowAsm2din "Inflow connector of ASM2d components"
 

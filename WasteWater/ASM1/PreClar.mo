@@ -1,7 +1,7 @@
 within WasteWater.ASM1;
 package PreClar "Primary clarifier modelling based on ASM1"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   model preclar1 "Dynamic ASM1 Primary Clarifier Model"
     import Modelica.Math.log;

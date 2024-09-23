@@ -1,6 +1,6 @@
 within ;
 package WasteWater "Modelica WasteWater Library"
-extends Modelica.Icons.Library;
+extends Modelica.Icons.Package;
 
 
 annotation (uses(Modelica(version="3.2.1")),

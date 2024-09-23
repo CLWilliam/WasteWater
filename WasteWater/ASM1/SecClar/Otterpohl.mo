@@ -1,11 +1,11 @@
 within WasteWater.ASM1.SecClar;
 package Otterpohl "Secondary settling tank modelling by Otterpohl"
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   package Interfaces
     "Connectors and partial ASM1 models for Secondary Clarifier Model by Otterpohl"
 
-    extends Modelica.Icons.Library;
+    extends Modelica.Icons.Package;
 
     connector UpperLayerPin "Connector above influent layer"
 

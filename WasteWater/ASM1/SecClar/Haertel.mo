@@ -1,11 +1,11 @@
 within WasteWater.ASM1.SecClar;
 package Haertel "Secondary settling tank modelling by Haertel (ASM1)"
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   package Interfaces
     "Connectors and partial models for ASM1 Secondary Clarifier Model by Haertel"
 
-    extends Modelica.Icons.Library;
+    extends Modelica.Icons.Package;
 
     connector UpperLayerPin "Connector above influent layer"
 

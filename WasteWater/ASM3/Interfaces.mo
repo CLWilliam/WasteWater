@@ -2,7 +2,7 @@ within WasteWater.ASM3;
 package Interfaces
   "Connectors and partial ASM3 model for Wastewater Treatment Modelling"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   connector WWFlowAsm3in "Inflow connector of ASM3 components"
     package WWU = WasteWater.WasteWaterUnits;

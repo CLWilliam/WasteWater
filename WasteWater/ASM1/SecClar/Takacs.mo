@@ -1,11 +1,11 @@
 within WasteWater.ASM1.SecClar;
 package Takacs "Secondary settling tank modelling by Takacs"
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   package Interfaces
     "Connectors and partial models for Secondary Clarifier Model by Takacs"
 
-    extends Modelica.Icons.Library;
+    extends Modelica.Icons.Package;
 
     connector UpperLayerPin "Connector above influent layer"
 

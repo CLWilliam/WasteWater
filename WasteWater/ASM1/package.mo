@@ -1,6 +1,6 @@
 within WasteWater;
 package ASM1 "Component models for the Activated Sludge Model No.1"
-extends Modelica.Icons.Library;
+extends Modelica.Icons.Package;
 
 
 

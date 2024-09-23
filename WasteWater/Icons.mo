@@ -1,7 +1,7 @@
 within WasteWater;
 package Icons "Icon definitions for the WasteWater library"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   partial block deni "Icon for a denitrification tank"
     annotation (

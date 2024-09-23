@@ -2,7 +2,7 @@ within WasteWater.ASM2d;
 package Examples
   "Demonstration examples of the components of the ASM2d library"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   class SmallPlant "Small WWTP Configuration"
     import WasteWater;

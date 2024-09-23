@@ -1,6 +1,6 @@
 within WasteWater.ASM3;
 package SecClar "Library for secondary settling tank modelling based on ASM3"
-extends Modelica.Icons.Library;
+extends Modelica.Icons.Package;
 
 
 annotation (

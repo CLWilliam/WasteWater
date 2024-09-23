@@ -1,11 +1,11 @@
 within WasteWater.ASM2d.SecClar;
 package Krebs "Secondary settling tank modelling by Krebs (ASM2d)"
 
-  extends Modelica.Icons.Library;
+  extends Modelica.Icons.Package;
 
   package Interfaces "Partial models for Secondary Clarifier Model by Krebs"
 
-    extends Modelica.Icons.Library;
+    extends Modelica.Icons.Package;
 
     partial model SCVar "partial models providing variables"
 
