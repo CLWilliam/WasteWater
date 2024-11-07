@@ -95,6 +95,7 @@ package Takacs "Secondary settling tank modelling by Takacs"
       input Real Xf;
       // sink velocity in m/d
       output Real vS;
+    protected
       parameter Real v0slash = 250.0 "max. settling velocity in m/d";
       parameter Real v0 = 474.0 "max. Vesilind settl. veloc. in m/d";
       parameter Real rh = 0.000576 "hindered zone settl. param. in m3/(g SS)";
