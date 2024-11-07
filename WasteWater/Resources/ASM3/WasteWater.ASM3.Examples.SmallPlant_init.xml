@@ -67,11 +67,9 @@ Settler.hs=4.868248813592e-01
 
   OPENMODELICAHOME                    = "D:/bin/OpenModelica"
 
-  guid                                = "{145e50f1-18c5-4b52-8d5f-36f60097bb99}"
 
   description                         = "Small WWTP Configuration"
   generationTool                      = "OpenModelica Compiler OpenModelica v1.23.1 (64-bit)"
-  generationDateAndTime               = "2024-11-07T23:21:31Z"
 
   variableNamingConvention            = "structured"
 
@@ -8952,7 +8950,7 @@ Settler.hs=4.868248813592e-01
     classIndex = "101" classType = "rAli"
     isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
     fileName = "D:/workspace/WasteWater/WasteWater/ASM3/Interfaces.mo" startLine = "16" startColumn = "5" endLine = "16" endColumn = "29" fileWritable = "true">
-    <Real fixed="false" useNominal="false" min="0.0" unit="mg/l" />
+    <Real start = "1.707251685617e+03" fixed="false" useNominal="false" min="0.0" unit="mg/l" />
   </ScalarVariable>
   <ScalarVariable
     name = "Settler.Feed.Xs"
